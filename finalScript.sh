@@ -1,15 +1,16 @@
-
 #!/bin/bash
 #This script takes in 9 arguments
 #It converts the coordinates from OpenTopo into the format used by daymet
 #Downloads the data from daymet
+#Warps OpenTopo Geotiff
+#Converts .nc files from DAYMET to .tif
 #1. xmin
 #2. ymin
 #3. xmax
 #4. ymax
 #5. EPSG
-#6. startyear
-#7. endyear
+#6. year
+#7. month or if using daymentR use endYear
 #8. what category to download from daymet (eg. ALL, tmin ... etc)
 #9. geoTiff from OpenTopography
        
@@ -34,14 +35,11 @@ fourth=$(cat coordinates.txt | egrep -o "[|][0-9][0-9]\.[0-9][0-9][0-9]|" | tr "
 echo $fourth
 
 #get the dayment data
-
-Rscript ./daymetr/daymet_tile.R $second $first $fourth $third $6 $7 "$8" ./output/
+#Rscript ./daymetr/daymet_tile.R $second $first $fourth $third $6 $7 "$8" ./output/
 
 #OR use tysons irods data. Just uncomment this code and comment out the above Rscript code
-#This isnt working fully... right now it only downloads NA_DEM
-
 export PATH=$PATH:~/icommands/
-iget /iplant/home/tyson_swetnam/DAYMET/NA_DEM/na_dem.tif
+iget -f /iplant/home/tyson_swetnam/DAYMET/$8_allyrs/$8_$6_$7.tif
 
 #warp open topo file
 bash WarpTool.sh $5 $9
@@ -49,11 +47,11 @@ bash WarpTool.sh $5 $9
 #convert all .nc files from daymet to GeoTiff
 bash nc_to_tiff.sh
 
-#setup environment to run grass commands from the shell
-bash grassCommand.sh
-
 #clean up
 rm *.nc
 
 #begin executing grass commands
-#bash grassCommand.sh
+#params are 1 what to calc (tmin, tmax etc)
+#2 year 
+#3 month
+bash grassCommand.sh $8 $6 $7 
