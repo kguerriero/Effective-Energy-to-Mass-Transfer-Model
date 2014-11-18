@@ -35,9 +35,11 @@ fourth=$(cat coordinates.txt | egrep -o "[|][0-9][0-9]\.[0-9][0-9][0-9]|" | tr "
 echo $fourth
 
 #get the dayment data
+#uncomment this if getting data from daymet (not Tyson's irods)
 #Rscript ./daymetr/daymet_tile.R $second $first $fourth $third $6 $7 "$8" ./output/
 
 #OR use tysons irods data. Just uncomment this code and comment out the above Rscript code
+#comment this code out if using Tyson's irods account
 export PATH=$PATH:~/icommands/
 iget -f /iplant/home/tyson_swetnam/DAYMET/$8_allyrs/$8_$6_$7.tif
 
@@ -45,13 +47,15 @@ iget -f /iplant/home/tyson_swetnam/DAYMET/$8_allyrs/$8_$6_$7.tif
 bash WarpTool.sh $5 $9
 
 #convert all .nc files from daymet to GeoTiff
-bash nc_to_tiff.sh
+#uncomment this if getting data from daymet (not Tyson's irods)
+#bash nc_to_tiff.sh
 
 #clean up
-rm *.nc
+#uncomment this if getting data from daymet (not Tyson's irods)
+#rm *.nc
 
 #begin executing grass commands
 #params are 1 what to calc (tmin, tmax etc)
 #2 year 
 #3 month
-bash grassCommand.sh $8 $6 $7 
+#bash grassCommand.sh $8 $6 $7 
