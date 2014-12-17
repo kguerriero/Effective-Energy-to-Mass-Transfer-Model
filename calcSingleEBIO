@@ -1,0 +1,5 @@
+#!/bin/bash
+
+day=$1
+
+r.mapcalc E_bio.$day="NPP_trad.$day*(22*10^-6)"
