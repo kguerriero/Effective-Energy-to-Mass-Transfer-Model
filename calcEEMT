@@ -1,0 +1,27 @@
+#!/bin/bash
+
+
+raster=$1
+email=$2
+echo Generating Makeflow to run r.sun
+
+
+# Clean up in case Makeflow already exists
+if [ -a Makeflow ]
+then
+        `makeflow -c`
+        `rm Makeflow`
+fi
+
+./calcEPPT
+./calcEBio
+./calcRSun -r $1
+
+echo -e "\nSubmitting WorkQueue master node..."
+
+time makeflow -T wq -p 9354 -a -N ptastsp --password mypwfile >&2
+
+for i in `seq 365`
+do
+        ./calcSingleEEMT $i
+done
