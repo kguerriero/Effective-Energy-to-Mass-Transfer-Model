@@ -1,0 +1,39 @@
+#!/bin/bash 
+
+#TODO Finish this script
+
+echo "Calculating EPPT"
+months[0]=0
+
+for i in `seq 0 11`
+do
+        temp=$((i+1))
+        months[$i]=$(date -d "$temp/1 + 1 month - 1 day" "+%d")
+done
+
+
+i=0
+count=1
+for i in `seq 0 11`
+do
+        x=0
+        while [ $x -lt ${months[ $i ]} ]; do
+
+                # Tell Makeflow to calculate f_tmin and f_tmax
+                echo -e "singleFTemp$count: calcSingleFTemp day$count" >> Makeflow
+                echo -e "\t./calcSingleFTemp $count > singleFTemp$count\n" >> Makeflow
+
+                # Tell Makeflow to calculate the vapor pressure
+                echo -e "singleVPS$count: calcSingleVPS singleFTemp$count day$count" >> Makeflow
+                echo -e "\t./calcSingleVPS $count > singleVPS$count\n" >> Makeflow
+
+                echo -e "singlePET$count: calcSinglePET day$count singleVPS$count" >> Makeflow
+                echo -e "\t./calcSinglePET $count > singlePET$count\n" >> Makeflow
+                temp=$((i+1))
+                echo -e "singleEPPT$count: calcSingleEPPT day$count singlePET$count" >> Makeflow
+                echo -e "\t./calcSingleEPPT $count $temp > singleEPPT$count\n" >> Makeflow
+
+                count=$[ $count + 1 ]
+                x=$[ $x + 1 ]
+        done
+done
