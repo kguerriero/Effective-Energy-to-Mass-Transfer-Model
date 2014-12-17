@@ -1,0 +1,5 @@
+#!/bin/bash
+
+day=$1
+
+r.mapcalc EEMT_Trad.$day="E_ppt.$day + E_bio.$day
