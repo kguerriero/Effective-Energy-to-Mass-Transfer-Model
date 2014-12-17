@@ -1,0 +1,6 @@
+#calcNPPTrad.sh
+#calculates the mass flux carbon from net primary productivity
+# $1 = day of the year
+day=$1
+r.mapcalc NPP_trad.$1="3000*(1+exp(1.315-0.119*(tmax_loc.$day+tmin_loc.$day)/2)^-1)"
+
