@@ -1,0 +1,6 @@
+#!/bin/bash
+
+raster=$1
+day=$2
+
+r.sun --overwrite -s elevin=$raster aspin="aspect" slopein="slope" day=$day step=0.05 dist=1 insol_time=hours_sun.$day glob_rad=total_sun.$day
