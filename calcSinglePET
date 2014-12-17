@@ -1,0 +1,5 @@
+#calcSinglePET.sh
+#Calculates PET
+# $1 is current day specified
+
+r.mapcalc PET.$1="(2.1*((hours_sun.$1/12)^2)*vp_s.$1/((tmin_loc.$1+tmax_loc.$1)/2))"
