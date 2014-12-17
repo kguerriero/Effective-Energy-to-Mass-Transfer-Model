@@ -1,0 +1,20 @@
+#!/bin/bash
+#calcVP_S.sh
+#Calculates saturated vapor pressure
+
+#$1 current day
+r.mapcalc vp_s.$1="(f_tmax_loc.$1 + f_tmin_loc.$1)/2"
+[kguerriero@service0 nylin]$ cat calcTemps
+#!/bin/bash
+
+raster=$1 
+tmin=$2
+tmax=$3
+nasa_dem=$4
+
+
+for i in `seq 365`
+do
+	./calcSingleTemp $1 $2 $3 $4 $i
+done
+
