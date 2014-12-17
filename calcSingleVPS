@@ -1,0 +1,6 @@
+#!/bin/bash
+#calcVP_S.sh
+#Calculates saturated vapor pressure
+
+#$1 current day
+r.mapcalc vp_s.$1="(f_tmax_loc.$1 + f_tmin_loc.$1)/2"
