@@ -1,0 +1,15 @@
+#calcEBio.sh
+#calculates the E_bio for a specific region
+# $1 = day of the year
+
+echo "Calculating E_BIO"
+
+for i in `seq 365`
+do
+        echo -e "NPPTrad$i: calcSingleNPPTrad day$i" >> Makeflow
+        echo -e "\t./calcSingleNPPTrad $i > NPPTrad$i\n" >> Makeflow
+
+        echo -e "singleEBIO$i: calcSingleEBIO NPPTrad$i day$i" >> Makeflow
+        echo -e "\t./calcSingleEBIO $i > singleEBIO$i\n" >> Makeflow
+
+done
