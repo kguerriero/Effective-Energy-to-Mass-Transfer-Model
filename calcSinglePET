@@ -1,3 +1,4 @@
+#!/bin/bash
 #calcSinglePET.sh
 #Calculates PET
 # $1 is current day specified
