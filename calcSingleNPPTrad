@@ -1,3 +1,4 @@
+#!/bin/bash
 #calcNPPTrad.sh
 #calculates the mass flux carbon from net primary productivity
 # $1 = day of the year
