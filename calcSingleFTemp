@@ -1,0 +1,6 @@
+#calF_Temp.sh
+#Calculates the f_tmin_loc and f_max_loc
+
+#$1 current day
+r.mapcalc f_tmin_loc.$1="6.108*exp((17.27*tmin_loc.$1)/(tmin_loc.$1 + 273.3))"
+r.mapcalc f_tmax_loc.$1="6.108*exp((17.27*tmax_loc.$1)/(tmax_loc.$1 + 273.3))"
