@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# -- Requires the DEM to be warped --
+
+# A script that calculates the local solar insolation
+# First calls r.slope.aspect before calling r.sun 
+# Arguments required:
+# 
+#	For r.slope.aspect:  
+#		1. (Input) The name of the raster imported with r.in.gdal
+#  	2. (Output) The name that you want the slope to be called
+#		3. (Output) The name that you want the aspect to be called
+#
+#	For r.sun:
+#  	4. (Output) The name you want the hours per day of sunlight to be called
+#		5. (Output) The name you want the total radiation per day to be called 
+usage() {
+	echo "Usage: calcRsun -h -r dem_raster -s output_slope -a output_aspect -l sunlight_out -g global_radiation"
+	echo "		-h print usage message" >&2
+	echo "		-r dem of interest" >&2
+	echo "		-s name of the output slope raster" >&2
+	echo "		-a name of the output aspect raster" >&2
+	echo "		-l name of the output sunlight raster" >&2
+	echo "		-g name of the output global radiation raster" >&2
+}
+
+opts() {
+	while getopts ":hr:" opt
+	do 	
+		case $opt in
+			h) 
+				usage
+				exit 0
+				;;
+			r)
+				raster=$OPTARG
+				;;
+			:)
+				echo "Option $OPTARG requires an argument" >&2
+				exit 1
+				;;
+			\?)
+				echo "Invalid option -$OPTARG" >&2
+				exit 1
+				;;
+		esac
+	done
+	
+}
+
+raster=""
+slope=""
+aspect=""
+insol=""
+glob=""
+
+opts $@
+
+echo "$raster"
+echo "$slope"
+echo "$aspect"
+echo "$insol"
+echo "$glob"
+`g.region rast=$raster`
+`r.slope.aspect --overwrite elevation=$raster slope="slope" aspect="aspect"`
+for i in `seq 365`
+do
+	echo -e "day$i: calcSingleRSun" >> Makeflow
+	echo -e "\t./calcSingleRSun $raster $i > day$i\n" >> Makeflow
+	#echo "r.sun --overwrite -s elevin=$raster aspin=$aspect slopein=$slope day=$i step=0.05 dist=1 insol_time="$insol.$i" glob_rad="$glob.$i"" >> makeflow
+
+done
+
