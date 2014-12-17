@@ -1,0 +1,6 @@
+#!/bin/bash
+
+day=$1
+month=$2
+
+r.mapcalc "E_ppt.$day=monthly_prcp.$month-PET.$day"
