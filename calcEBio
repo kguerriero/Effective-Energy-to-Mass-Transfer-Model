@@ -1,3 +1,4 @@
+#!/bin/bash
 #calcEBio.sh
 #calculates the E_bio for a specific region
 # $1 = day of the year
