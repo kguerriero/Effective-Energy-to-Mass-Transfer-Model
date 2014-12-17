@@ -1,0 +1,9 @@
+#!/bin/bash
+
+raster=$1
+nasa_dem=$2
+day=$3
+
+r.mapcalc "tmin_loc.$3=tmin.$3-0.00649*($1-$2)"
+r.mapcalc "tmax_loc.$3=tmax.$3-0.00649*($1-$2)"
+
